@@ -11,7 +11,7 @@ const FlashloanModule = buildModule("FlashloanModule", (m) => {
 
     const uniswapRouterAddress = m.getParameter(
         "uniswapRouterAddress",
-        "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D" // Uniswap V2 Router on Arbitrum 
+        "0xE592427A0AEce92De3Edee1F18E0157C05861564" // Uniswap V2 Router on Arbitrum 
     );
 
     // Deploy FlashloanManager contract

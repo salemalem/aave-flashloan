@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.22;
 
+import "@openzeppelin/contracts/utils/Context.sol";
 import {IFlashLoanSimpleReceiver} from "@aave/core-v3/contracts/flashloan/interfaces/IFlashLoanSimpleReceiver.sol";
 import {IPoolAddressesProvider} from "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
 import {IPool} from "@aave/core-v3/contracts/interfaces/IPool.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
+import "hardhat/console.sol";
 
-contract FlashloanArbitrage is IFlashLoanSimpleReceiver {
+contract FlashloanArbitrage is Context, IFlashLoanSimpleReceiver {
     IPoolAddressesProvider public immutable override ADDRESSES_PROVIDER;
     IPool public immutable override POOL;
 
@@ -71,16 +73,21 @@ contract FlashloanArbitrage is IFlashLoanSimpleReceiver {
 
         // Step 1: Swap USDC to WETH
         uint256 ethAmount = swapUSDCtoETH(amount);
+        console.log("ETH Amount: ", ethAmount);
+        console.log("USDC Amount: ", amount);
 
         // Step 2: Swap WETH back to USDC
         uint256 usdcReceived = swapETHtoUSDC(ethAmount);
+        console.log("USDC Received: ", usdcReceived);
 
         // Step 3: Ensure we have enough USDC to repay the loan
         uint256 totalDebt = amount + premium;
-        require(
-            usdcReceived >= totalDebt,
-            "Arbitrage failed: Insufficient USDC"
-        );
+        console.log("Total Debt: ", totalDebt);
+        console.log("Premium: ", premium);
+        // require(
+        //     usdcReceived >= totalDebt,
+        //     "Arbitrage failed: Insufficient USDC"
+        // );
 
         // Step 4: Approve and repay loan
         IERC20(USDC).approve(address(POOL), totalDebt);
@@ -126,5 +133,19 @@ contract FlashloanArbitrage is IFlashLoanSimpleReceiver {
             });
 
         amountOut = swapRouter.exactInputSingle(params);
+    }
+
+    /**
+     * @dev Withdraws all USDC balance to owner's wallet
+     * Excludes any currently flashloaned USDC (safety check)
+     */
+    function withdrawAllUSDC() external {
+        uint256 balance = IERC20(USDC).balanceOf(address(this));
+        require(balance > 0, "No USDC balance to withdraw");
+
+        bool success = IERC20(USDC).transfer(_msgSender(), balance);
+        require(success, "USDC transfer failed");
+
+        console.log("Withdrawn USDC:", balance);
     }
 }

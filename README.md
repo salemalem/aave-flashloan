@@ -121,6 +121,9 @@ REPORT_GAS=true npx hardhat test
 npx hardhat ignition deploy ignition/modules/FlashloanModule.ts --network bscMainnet
 bunx hardhat ignition deploy ignition/modules/FlashloanModule.ts --network arbitrumMainnet --verify
 
+# Verification (sometimes)
+bunx hardhat ignition verify chain-42161 --network arbitrumMainnet --include-unrelated-contracts
+
 #Use --reset to reset deployments
 bunx hardhat ignition deploy ignition/modules/PortfolioManagerModule.ts --network arbitrumMainnet --reset --verify
 
