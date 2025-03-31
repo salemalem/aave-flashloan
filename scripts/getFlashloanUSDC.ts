@@ -7,7 +7,7 @@ async function main() {
     // const FLASHLOAN_AMOUNT = ethers.parseUnits("1", USDC_DECIMALS); // 0.1 USDC
     const FLASHLOAN_AMOUNT = 1;
     // Replace with your deployed FlashloanManager contract address
-    const FLASHLOAN_MANAGER_ADDRESS = "0xE5A73eFa988C246cAf743A715a7319011e562b34"; 
+    const FLASHLOAN_MANAGER_ADDRESS = "0x310dBa2E03C812C88ba4999cd2aaCfE447CF2Bb5"; 
 
     // Get the contract instance
      // Get the contract instance using getContractAt
