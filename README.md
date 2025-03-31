@@ -118,8 +118,8 @@ npx hardhat test
 REPORT_GAS=true npx hardhat test
 
 # Deploy using Ignition
-npx hardhat ignition deploy ignition/modules/PortfolioManagerModule.ts --network bscMainnet
-bunx hardhat ignition deploy ignition/modules/PortfolioManagerModule.ts --network arbitrumMainnet --verify
+npx hardhat ignition deploy ignition/modules/FlashloanModule.ts --network bscMainnet
+bunx hardhat ignition deploy ignition/modules/FlashloanModule.ts --network arbitrumMainnet --verify
 
 #Use --reset to reset deployments
 bunx hardhat ignition deploy ignition/modules/PortfolioManagerModule.ts --network arbitrumMainnet --reset --verify

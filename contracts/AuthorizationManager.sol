@@ -13,7 +13,8 @@ contract AuthorizationManager is Context, Ownable {
     /// @notice Emitted when an address is de-authorized
     event AddressDeauthorized(address indexed account);
 
-    constructor() {
+    constructor() Ownable(_msgSender()) {
+        // Initialize the contract with the deployer as an authorized address
         // Authorize the contract deployer by default
         authorizeAddress(_msgSender());
     }
