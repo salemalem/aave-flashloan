@@ -1,15 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.22;
 
-import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts/utils/Context.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract AuthorizationManager is
-    Initializable,
-    ContextUpgradeable,
-    OwnableUpgradeable
-{
+contract AuthorizationManager is Context, Ownable {
     mapping(address => bool) private authorizedAddresses;
 
     /// @notice Emitted when an address is authorized
@@ -18,14 +13,10 @@ contract AuthorizationManager is
     /// @notice Emitted when an address is de-authorized
     event AddressDeauthorized(address indexed account);
 
-    function __AuthorizationManager_init() public initializer {
-        __Context_init();
-        __Ownable_init(_msgSender());
+    constructor() {
+        // Authorize the contract deployer by default
         authorizeAddress(_msgSender());
     }
-
-    /// @dev Gap for upgrade safety
-    uint256[50] private __gap;
 
     /**
      * @notice Adds an address to the list of authorized addresses.
