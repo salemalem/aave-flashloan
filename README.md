@@ -125,11 +125,11 @@ bunx hardhat ignition deploy ignition/modules/FlashloanModule.ts --network arbit
 bunx hardhat ignition verify chain-42161 --network arbitrumMainnet --include-unrelated-contracts
 
 #Use --reset to reset deployments
-bunx hardhat ignition deploy ignition/modules/PortfolioManagerModule.ts --network arbitrumMainnet --reset --verify
+bunx hardhat ignition deploy ignition/modules/FlashloanModule.ts --network arbitrumMainnet --reset --verify
 
 # Fetch price data (example script)
-npx hardhat run scripts/fetchPrice.ts --network arbitrumMainnet
-bunx hardhat run scripts/fetchPrice.ts --network arbitrumMainnet
+npx hardhat run scripts/fgetFlashloanUSDC.ts --network arbitrumMainnet
+bunx hardhat run scripts/getFlashloanUSDC.ts --network arbitrumMainnet
 
 # Clean the project
 npx hardhat clean
@@ -213,42 +213,10 @@ export default config;
 
 ---
 
-## Architecture Recommendations
+### Latest verified working contract on Arbitrum 1
+https://arbiscan.io/address/0x29966C05d1ce8277A93602CD6Dd75e258519747F#code
 
-1. **Modular Contracts**:
-   - Split into `CompetitionManager`, `PortfolioManager`, and `RewardManager`.
+Basically this is the demo of getting USDC flashloan, swapping it to ETH on Uniswap and swapping it back.
+Since we don't make money but rather lose due to slippage, you need to send some USDC to the contract address so contract can pay back the flashloan premium fee.
 
-2. **Storage Optimization**:
-   - Use `mappings` and `structs` for data management.
-   - Optimize event logs for off-chain analytics.
-
-3. **Security Practices**:
-   - Implement rate limits and deposit caps.
-   - Use OpenZeppelin’s battle-tested libraries.
-
-4. **Integration**:
-   - Leverage Chainlink for price feeds.
-   - Handle deposits via ERC20 tokens.
-
----
-
-## Known Issues and Precautions
-
-- Refer to Solidity’s [breaking changes](https://docs.soliditylang.org/en/latest/080-breaking-changes.html) for potential contract version issues.
-
-- Trigger automated rounds using [Chainlink Keepers](https://automation.chain.link/arbitrum).
-
----
-
-## Useful Resources
-
-1. **BSC Mainnet Asset Feeds**: [Feeds-BSC Mainnet](https://reference-data-directory.vercel.app/feeds-bsc-mainnet.json)
-2. **BSC Testnet Asset Feeds**: [Feeds-BSC Testnet](https://reference-data-directory.vercel.app/feeds-bsc-testnet.json)
-3. **RPC Check**:
-
-   ```bash
-   curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' https://endpoints.omniatech.io/v1/bsc/testnet/public
-   ```
-
-TODO:
-Add pause mechanism from Openzeppelin
+Don't worry you can try with small amounts such as 0.1$ and Arbitrum fees are few cents.

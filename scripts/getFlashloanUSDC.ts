@@ -7,7 +7,7 @@ async function main() {
     // const FLASHLOAN_AMOUNT = ethers.parseUnits("0.1", USDC_DECIMALS); // 0.1 USDC
     const FLASHLOAN_AMOUNT = 1;
     // Replace with your deployed FlashloanManager contract address
-    const FLASHLOAN_MANAGER_ADDRESS = "0xe0E1F58427d927466c4137308d1bd52D2d096ca3"; 
+    const FLASHLOAN_MANAGER_ADDRESS = "0x29966C05d1ce8277A93602CD6Dd75e258519747F"; 
     const USDC_ADDRESS = "0xaf88d065e77c8cC2239327C5EDb3A432268e5831"; // USDC address on Arbitrum
 
 
