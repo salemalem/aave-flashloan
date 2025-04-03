@@ -111,8 +111,8 @@ contract FlashloanManager is IFlashLoanSimpleReceiver {
      * @param to The recipient address
      * @param amount The amount to withdraw
      */
-    function withdrawERC20(address token, address to, uint256 amount) external {
-        require(token != USDC, "Cannot withdraw flashloaned USDC");
-        IERC20(token).transfer(to, amount);
-    }
+    // function withdrawERC20(address token, address to, uint256 amount) external {
+    //     require(token != USDC, "Cannot withdraw flashloaned USDC");
+    //     IERC20(token).transfer(to, amount);
+    // }
 }

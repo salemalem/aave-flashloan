@@ -3,6 +3,7 @@ import "@nomicfoundation/hardhat-toolbox";
 import "dotenv/config";
 import "@typechain/hardhat";
 import "@nomicfoundation/hardhat-ethers";
+import "hardhat-tracer";
 
 
 const config: HardhatUserConfig = {

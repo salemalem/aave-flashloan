@@ -2,6 +2,7 @@
 pragma solidity ^0.8.22;
 
 import "@openzeppelin/contracts/utils/Context.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import {IFlashLoanSimpleReceiver} from "@aave/core-v3/contracts/flashloan/interfaces/IFlashLoanSimpleReceiver.sol";
 import {IPoolAddressesProvider} from "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
 import {IPool} from "@aave/core-v3/contracts/interfaces/IPool.sol";
@@ -9,7 +10,7 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {ISwapRouter} from "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import "hardhat/console.sol";
 
-contract FlashloanArbitrage is Context, IFlashLoanSimpleReceiver {
+contract FlashloanArbitrage is Context, Ownable, IFlashLoanSimpleReceiver {
     IPoolAddressesProvider public immutable override ADDRESSES_PROVIDER;
     IPool public immutable override POOL;
 
@@ -18,7 +19,7 @@ contract FlashloanArbitrage is Context, IFlashLoanSimpleReceiver {
 
     ISwapRouter public immutable swapRouter;
 
-    constructor(address provider, address _swapRouter) {
+    constructor(address provider, address _swapRouter) Ownable(_msgSender()) {
         /*
         aavePoolAddress = 0xa97684ead0e402dC232d5A977953DF7ECBaB3CDb; // Aave V3 Pool on Arbitrum
         swapRouter = 0xE592427A0AEce92De3Edee1F18E0157C05861564; // Uniswap V3 Swap Router on Arbitrum
@@ -139,7 +140,7 @@ contract FlashloanArbitrage is Context, IFlashLoanSimpleReceiver {
      * @dev Withdraws all USDC balance to owner's wallet
      * Excludes any currently flashloaned USDC (safety check)
      */
-    function withdrawAllUSDC() external {
+    function withdrawAllUSDC() external onlyOwner {
         uint256 balance = IERC20(USDC).balanceOf(address(this));
         require(balance > 0, "No USDC balance to withdraw");
 

@@ -129,7 +129,7 @@ bunx hardhat ignition deploy ignition/modules/FlashloanModule.ts --network arbit
 
 # Fetch price data (example script)
 npx hardhat run scripts/fgetFlashloanUSDC.ts --network arbitrumMainnet
-bunx hardhat run scripts/getFlashloanUSDC.ts --network arbitrumMainnet
+bunx hardhat run scripts/getFlashloanUSDC.ts --network arbitrumMainnet --verbose
 
 # Clean the project
 npx hardhat clean
@@ -166,7 +166,7 @@ Put appropriate chain-id.
 Use the `--verify` flag with Hardhat Ignition to verify contracts immediately after deployment:
 
 ```bash
-npx hardhat ignition deploy ignition/modules/PortfolioManager.ts --network arbitrum --verify
+npx hardhat ignition deploy ignition/modules/FlashloanModule.ts --network arbitrum --verify
 ```
 
 ### Verify Existing Deployments
@@ -214,9 +214,13 @@ export default config;
 ---
 
 ### Latest verified working contract on Arbitrum 1
-https://arbiscan.io/address/0x29966C05d1ce8277A93602CD6Dd75e258519747F#code
+https://arbiscan.io/address/0xC70c1Da07Ef8B2e5BB29Af4AB4260a4FBBA56383#code
 
 Basically this is the demo of getting USDC flashloan, swapping it to ETH on Uniswap and swapping it back.
 Since we don't make money but rather lose due to slippage, you need to send some USDC to the contract address so contract can pay back the flashloan premium fee.
 
 Don't worry you can try with small amounts such as 0.1$ and Arbitrum fees are few cents.
+
+
+Sample succesful transactions:
+https://arbiscan.io//tx/0x677a8be5958ca91432c5484b22ed2dfbf82037412ef4d15a94ce4d8c57708632
